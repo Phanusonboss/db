@@ -1,8 +1,10 @@
 import { router } from '@inertiajs/react';
 import React, { useState } from 'react';
-
+import FlashMessage from '@/Components/FlashMessage';
+import { usePage } from '@inertiajs/react';
 const EmployeeList = ({ employees, query, sort, direction }) => {
     const [search, setSearch] = useState(query || '');
+    const { flash } = usePage().props;
 
     const handleSearch = (e) => {
         e.preventDefault();
@@ -19,6 +21,7 @@ const EmployeeList = ({ employees, query, sort, direction }) => {
 
     return (
         <div className="min-h-screen bg-gray-100 py-10">
+            <FlashMessage flash={flash} />
             <h1 className="text-3xl font-bold text-center text-blue-600 mb-8">
                 Employee List
             </h1>
@@ -72,6 +75,7 @@ const EmployeeList = ({ employees, query, sort, direction }) => {
                                 >
                                     Age
                                 </th>
+                                <th className="py-3 px-6 text-left">Photo</th>
                             </tr>
                         </thead>
                         <tbody className="text-gray-600 text-sm">
@@ -86,6 +90,17 @@ const EmployeeList = ({ employees, query, sort, direction }) => {
                                     <td className="py-3 px-6 text-left">{employee.first_name}</td>
                                     <td className="py-3 px-6 text-left">{employee.last_name}</td>
                                     <td className="py-3 px-6 text-left">{employee.birth_date}</td>
+                                    <td className="py-3 px-6 text-left">
+                                        {employee.photo ? (
+                                            <img
+                                                src={`/storage/${employee.photo}`}
+                                                alt={`${employee.first_name} ${employee.last_name}`}
+                                                className="w-12 h-12 rounded-full object-cover"
+                                            />
+                                        ) : (
+                                            <span className="text-gray-400">No photo</span>
+                                        )}
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>

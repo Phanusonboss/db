@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\EmployeeController;
 
-Route::get('/employees', [EmployeeController::class, 'index']);
+Route::get('/employees', [EmployeeController::class, 'index'])->name('employees.index');
 // Route::resource('employee', EmployeeController::class) ->only(['index'])
 
 Route::get('/', function () {
@@ -28,5 +28,10 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+// หน%าแบบฟอร,มสำหรับเพิ่มข%อมูลพนักงาน
+Route::get('/employees/create', [EmployeeController::class, 'create']) ->name('employees.create');
+
+// Function สำหรับบันทึกข%อมูลพนักงาน
+Route::post('/employees', [EmployeeController::class, 'store']) ->name('employees.store');
 
 require __DIR__.'/auth.php';
